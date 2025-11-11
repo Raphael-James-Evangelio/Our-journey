@@ -1,6 +1,5 @@
 {
   "version": 2,
-  "framework": "static",
   "buildCommand": "npm run build",
   "outputDirectory": "our_story_flutter/build/web",
   "installCommand": "npm install"
