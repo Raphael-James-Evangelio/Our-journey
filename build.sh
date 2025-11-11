@@ -73,6 +73,7 @@ echo "Build completed successfully. Output at ${APP_DIR}/build/web"
 
 echo "Writing Vercel output directory..."
 mkdir -p "${VERCEL_OUTPUT_DIR}"
+cp -r "${APP_DIR}/build/web" "${VERCEL_OUTPUT_DIR}/web"
 cat > "${VERCEL_OUTPUT_DIR}/config.json" <<'JSON'
 {
   "version": 3,
