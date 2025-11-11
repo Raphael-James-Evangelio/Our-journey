@@ -30,8 +30,9 @@ class AppRouter {
             ),
           ],
           redirect: (context, state) {
-            final isLoggingIn = state.subloc == '/login';
-            final isGalleryRoute = state.subloc == '/gallery-manager';
+            final location = state.uri.toString();
+            final isLoggingIn = location == '/login';
+            final isGalleryRoute = location == '/gallery-manager';
             final user = FirebaseAuth.instance.currentUser;
 
             if (user == null && isGalleryRoute) {
@@ -47,6 +48,24 @@ class AppRouter {
         );
 
   final GoRouter router;
+
+  static GoRouterPageBuilder _buildFadeTransition(Widget child) {
+    return (context, state) {
+      return CustomTransitionPage<void>(
+        key: state.pageKey,
+        child: child,
+        transitionsBuilder: (context, animation, secondaryAnimation, child) {
+          return FadeTransition(
+            opacity: CurvedAnimation(
+              parent: animation,
+              curve: Curves.easeInOut,
+            ),
+            child: child,
+          );
+        },
+      );
+    };
+  }
 }
 
 class GoRouterRefreshStream extends ChangeNotifier {
