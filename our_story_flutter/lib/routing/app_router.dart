@@ -10,7 +10,8 @@ import '../pages/login_page.dart';
 
 class AppRouter {
   AppRouter({required Stream<User?> authStream})
-      : router = GoRouter(
+      : _authStream = authStream,
+        router = GoRouter(
           initialLocation: '/',
           routes: <RouteBase>[
             GoRoute(
@@ -29,25 +30,36 @@ class AppRouter {
               pageBuilder: _buildFadeTransition(const GalleryManagerPage()),
             ),
           ],
-          redirect: (context, state) {
-            final location = state.uri.toString();
-            final isLoggingIn = location == '/login';
-            final isGalleryRoute = location == '/gallery-manager';
-            final user = FirebaseAuth.instance.currentUser;
-
-            if (user == null && isGalleryRoute) {
-              return '/login';
-            }
-            if (user != null && isLoggingIn) {
-              return '/gallery-manager';
-            }
-
-            return null;
-          },
-          refreshListenable: GoRouterRefreshStream(authStream),
+          redirect: (context, state) => _redirectLogic(state),
+          refreshListenable: _AuthStateNotifier(authStream),
         );
 
+  final Stream<User?> _authStream;
   final GoRouter router;
+
+  static String? _redirectLogic(GoRouterState state) {
+    final location = state.uri.toString();
+    final isLoggingIn = location == '/login';
+    final isGalleryRoute = location == '/gallery-manager';
+
+    // Try to get current user, but handle cases where Firebase might not be initialized
+    User? user;
+    try {
+      user = FirebaseAuth.instance.currentUser;
+    } catch (e) {
+      // Firebase not initialized yet, don't redirect
+      return null;
+    }
+
+    if (user == null && isGalleryRoute) {
+      return '/login';
+    }
+    if (user != null && isLoggingIn) {
+      return '/gallery-manager';
+    }
+
+    return null;
+  }
 
   static GoRouterPageBuilder _buildFadeTransition(Widget child) {
     return (context, state) {
@@ -68,14 +80,14 @@ class AppRouter {
   }
 }
 
-class GoRouterRefreshStream extends ChangeNotifier {
-  GoRouterRefreshStream(Stream<dynamic> stream) {
-    _subscription = stream.asBroadcastStream().listen((event) {
+class _AuthStateNotifier extends ChangeNotifier {
+  _AuthStateNotifier(Stream<User?> authStream) {
+    _subscription = authStream.listen((user) {
       notifyListeners();
     });
   }
 
-  late final StreamSubscription<dynamic> _subscription;
+  late final StreamSubscription<User?> _subscription;
 
   @override
   void dispose() {
