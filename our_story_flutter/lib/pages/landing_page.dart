@@ -617,11 +617,6 @@ class _GallerySection extends StatelessWidget {
                 builder: (context, snapshot) {
                   final images = snapshot.data;
 
-                  if (snapshot.connectionState == ConnectionState.waiting &&
-                      images == null) {
-                    return const Center(child: CircularProgressIndicator());
-                  }
-
                   final urls = (images == null || images.isEmpty)
                       ? StoryContent.galleryPlaceholders
                       : images.map((image) => image.url).toList();
@@ -660,7 +655,8 @@ class _GallerySection extends StatelessWidget {
                                     return Container(
                                       color: Colors.black12,
                                       child: const Center(
-                                        child: Icon(Icons.broken_image_outlined),
+                                        child:
+                                            Icon(Icons.broken_image_outlined),
                                       ),
                                     );
                                   },

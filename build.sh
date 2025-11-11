@@ -71,3 +71,12 @@ echo "Building Flutter web release..."
 
 echo "Build completed successfully. Output at ${APP_DIR}/build/web"
 
+echo "Writing Vercel output directory..."
+mkdir -p "${VERCEL_OUTPUT_DIR}"
+cat > "${VERCEL_OUTPUT_DIR}/config.json" <<'JSON'
+{
+  "version": 3,
+  "routes": []
+}
+JSON
+
