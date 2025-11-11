@@ -1,0 +1,11 @@
+{
+  "name": "Our Story",
+  "short_name": "OurStory",
+  "start_url": ".",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#8b4a4a",
+  "description": "A romantic story web experience built with Flutter web.",
+  "icons": []
+}
+
