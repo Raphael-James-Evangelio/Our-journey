@@ -1,10 +1,6 @@
 #!/bin/bash
 set -e
 
-run_safe() {
-  "$@" || true
-}
-
 echo "Preparing Flutter build environment..."
 
 PROJECT_DIR="${VERCEL_SOURCE_DIR:-$(pwd)}"
@@ -44,18 +40,18 @@ export PATH="${FLUTTER_ROOT}/bin:${FLUTTER_ROOT}/bin/cache/dart-sdk/bin:${PATH}"
 export PUB_CACHE="${PUB_CACHE_DIR}"
 
 echo "Configuring Flutter settings..."
-run_safe "${FLUTTER_BIN}" config --no-analytics
-run_safe "${FLUTTER_BIN}" config --no-cli-animations
-run_safe "${FLUTTER_BIN}" config --enable-web
+"${FLUTTER_BIN}" config --no-analytics || true
+"${FLUTTER_BIN}" config --no-cli-animations || true
+"${FLUTTER_BIN}" config --enable-web
 
 echo "Flutter SDK version:"
-run_safe "${FLUTTER_BIN}" --version | head -5
+"${FLUTTER_BIN}" --version | head -5 || true
 
 echo "Precaching Flutter web artifacts..."
-run_safe "${FLUTTER_BIN}" precache --web
+"${FLUTTER_BIN}" precache --web
 
 echo "Running flutter doctor (non-blocking)..."
-run_safe "${FLUTTER_BIN}" doctor
+"${FLUTTER_BIN}" doctor || true
 
 if [ ! -d "${APP_DIR}" ]; then
   echo "Error: Flutter project directory not found at ${APP_DIR}"
