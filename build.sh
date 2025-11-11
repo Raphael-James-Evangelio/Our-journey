@@ -66,14 +66,17 @@ echo "Fetching project dependencies..."
 cd "${APP_DIR}"
 "${FLUTTER_BIN}" pub get
 
+DIST_DIR="${PROJECT_DIR}/dist"
+rm -rf "${DIST_DIR}"
+
 echo "Building Flutter web release..."
 "${FLUTTER_BIN}" build web --release --web-renderer canvaskit
 
 echo "Build completed successfully. Output at ${APP_DIR}/build/web"
 
 echo "Copying build output to dist directory for Vercel..."
-mkdir -p dist
-cp -r "${APP_DIR}/build/web/." dist/
+mkdir -p "${DIST_DIR}"
+cp -r "${APP_DIR}/build/web/." "${DIST_DIR}/"
 
 echo "Build ready for Vercel deployment"
 

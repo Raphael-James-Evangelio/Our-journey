@@ -2,7 +2,7 @@
   "name": "our-story-flutter",
   "private": true,
   "scripts": {
-    "build": "bash scripts/vercel_build.sh"
+    "build": "bash build.sh"
   }
 }
 
