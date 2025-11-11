@@ -33,3 +33,9 @@ flutter build web --release --web-renderer canvaskit
 
 echo "Build complete. Output at our_story_flutter/build/web"
 
+echo "Copying build output to dist directory..."
+mkdir -p ../dist
+cp -r build/web/. ../dist/
+
+echo "Build ready for deployment"
+
