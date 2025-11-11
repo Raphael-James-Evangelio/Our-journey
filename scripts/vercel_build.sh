@@ -12,6 +12,14 @@ echo "Extracting Flutter SDK..."
 tar xf "${FLUTTER_ARCHIVE}"
 export PATH="$PWD/flutter/bin:$PATH"
 
+echo "Removing embedded Flutter git metadata to avoid ownership checks..."
+rm -rf flutter/.git
+git config --global --add safe.directory "$PWD/flutter"
+git config --global --add safe.directory '*'
+
+echo "Checking Flutter version..."
+flutter doctor --version
+
 echo "Enabling Flutter for web..."
 flutter config --no-analytics
 flutter config --enable-web

@@ -1,7 +1,8 @@
 {
   "version": 2,
-  "buildCommand": "npm run build",
-  "outputDirectory": "our_story_flutter/build/web",
-  "installCommand": "npm install"
+  "framework": null,
+  "installCommand": "echo 'Flutter will be installed during build'",
+  "buildCommand": "chmod +x build.sh && ./build.sh",
+  "outputDirectory": "our_story_flutter/build/web"
 }
 
