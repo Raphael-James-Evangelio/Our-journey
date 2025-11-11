@@ -57,6 +57,11 @@ run_safe "${FLUTTER_BIN}" precache --web
 echo "Running flutter doctor (non-blocking)..."
 run_safe "${FLUTTER_BIN}" doctor
 
+if [ ! -d "${APP_DIR}" ]; then
+  echo "Error: Flutter project directory not found at ${APP_DIR}"
+  exit 1
+fi
+
 echo "Fetching project dependencies..."
 cd "${APP_DIR}"
 "${FLUTTER_BIN}" pub get
