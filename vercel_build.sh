@@ -14,6 +14,7 @@ export PATH="$PWD/flutter/bin:$PATH"
 
 echo "Marking Flutter checkout as safe for git..."
 git config --global --add safe.directory "$PWD/flutter"
+git config --global --add safe.directory '*'
 
 echo "Checking Flutter version..."
 flutter doctor --version
