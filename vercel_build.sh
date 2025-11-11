@@ -12,9 +12,8 @@ echo "Extracting Flutter SDK..."
 tar xf "${FLUTTER_ARCHIVE}"
 export PATH="$PWD/flutter/bin:$PATH"
 
-echo "Marking Flutter checkout as safe for git..."
-git config --global --add safe.directory "$PWD/flutter"
-git config --global --add safe.directory '*'
+echo "Removing embedded Flutter git metadata to avoid ownership checks..."
+rm -rf flutter/.git
 
 echo "Checking Flutter version..."
 flutter doctor --version
